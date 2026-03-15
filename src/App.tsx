@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Users, Sparkles } from "lucide-react";
+import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "./lib/supabase";
+
+const REGISTRATION_BASE = 1100;
 
 function useWaitlist() {
   const [count, setCount] = useState<number | null>(null);
@@ -74,6 +76,8 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const displayCount = count !== null ? REGISTRATION_BASE + count : null;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await join(email);
@@ -93,15 +97,22 @@ export default function App() {
           style={{ clipPath: "ellipse(80% 90% at 20% 50%)" }}
         />
       </div>
-      <div className="relative z-10">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1a1a1a]/8 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/50">
-          <Sparkles className="h-3 w-3" />
-          Early Access
+      <motion.div
+        className="relative z-10"
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.06] px-3.5 py-1.5 backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5 text-[#1a1a1a]/60" strokeWidth={2.5} />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1a1a1a]/70">
+            Early Access
+          </span>
         </div>
-        <h2 className="mt-2 text-xl font-bold leading-[1.12] text-[#1a1a1a] leading-tight">
+        <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-[#0a0a0a] drop-shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:text-3xl">
           Own Your Cashflow.
         </h2>
-      </div>
+      </motion.div>
       <div className="relative z-10 mt-4 sm:mt-5">
         {success ? (
           <div className="rounded-2xl bg-[#1a1a1a]/10 p-4 sm:p-5 text-center">
@@ -169,21 +180,19 @@ export default function App() {
             Monaris
           </p>
         </div>
-        <div className="mt-3 sm:mt-4">
-          <div className="flex items-baseline gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
-              Registrations
-            </p>
-            <motion.p
-              key={count}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-4xl font-black text-[#BFFF00] sm:text-7xl leading-none"
-            >
-              {count !== null ? count.toLocaleString() : "—"}
-            </motion.p>
-          </div>
+        <div className="mt-3 sm:mt-4 min-w-0">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+            Registrations
+          </p>
+          <motion.p
+            key={displayCount}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mt-1 text-3xl font-black text-[#BFFF00] leading-none sm:text-5xl tabular-nums"
+          >
+            {displayCount !== null ? displayCount.toLocaleString() : "—"}
+          </motion.p>
         </div>
         {clickHandler && (
           <div className="mt-2 sm:mt-3 flex items-center gap-2 text-white/30 group-hover:text-white/50 transition-colors">
@@ -269,7 +278,7 @@ export default function App() {
           >
             <div className="inline-flex items-center gap-2 sm:gap-3 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 sm:px-5 py-2 sm:py-2.5">
               <span className="text-2xl sm:text-3xl font-black text-[#BFFF00]">
-                {count !== null ? count.toLocaleString() : "—"}
+                {displayCount !== null ? displayCount.toLocaleString() : "—"}
               </span>
               <span className="text-xs sm:text-sm text-white/40 font-medium">
                 on the waitlist for Monaris Alpha
@@ -318,90 +327,126 @@ export default function App() {
                 </div>
               </div>
 
-              {/* BACK — Financial Dashboard Mockup */}
+              {/* BACK — Dashboard + Product Features */}
               <div className="flip-card-back w-full rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_48px_-12px_rgba(0,0,0,0.6),0_48px_96px_-24px_rgba(0,0,0,0.4)]">
                 <div
-                  className="flex min-h-[320px] h-full flex-row relative cursor-pointer font-sans"
+                  className="flex min-h-[320px] flex-col relative cursor-pointer font-sans"
                   onClick={() => setIsFlipped(false)}
                 >
-                  {/* Left — green data panel */}
-                  <div className="relative flex w-[58%] flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-7">
-                    <div className="absolute inset-0">
+                  {/* Top: Dashboard-style card */}
+                  <div className="flex flex-1 flex-row min-h-0">
+                    {/* Left — green data panel */}
+                    <div className="relative flex w-[58%] flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-5 sm:p-6">
+                      <div className="absolute inset-0">
+                        <div
+                          className="absolute left-0 top-0 bottom-0 w-[35%] bg-gradient-to-r from-[#e8ffb3]/70 to-transparent"
+                          style={{ clipPath: "ellipse(100% 80% at 0% 50%)" }}
+                        />
+                      </div>
+                      <div className="relative z-10 space-y-4">
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/50">
+                            Cashflow Account
+                          </p>
+                          <p className="mt-0.5 font-mono text-sm font-bold text-[#1a1a1a] tracking-tight">
+                            monaris.biz
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/50">
+                            Credit Limit
+                          </p>
+                          <p className="mt-0.5 text-2xl font-black text-[#1a1a1a] tracking-tight">
+                          $22,400
+                          </p>
+                        </div>
+                        <div className="flex gap-6">
+                          <div>
+                            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/50">
+                              Net Inflow
+                            </p>
+                            <p className="mt-0.5 text-lg font-black text-[#1a1a1a] tracking-tight">
+                            +$186,400
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/50">
+                              Credit Tier
+                            </p>
+                            <p className="mt-0.5 text-lg font-black text-[#1a1a1a] tracking-tight">
+                              B
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right — dark info panel */}
+                    <div className="relative flex w-[42%] flex-col justify-between overflow-hidden bg-[#0f0f14] p-5 sm:p-6">
                       <div
-                        className="absolute left-0 top-0 bottom-0 w-[35%] bg-gradient-to-r from-[#e8ffb3]/70 to-transparent"
-                        style={{ clipPath: "ellipse(100% 80% at 0% 50%)" }}
+                        className="absolute inset-0 opacity-25"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                        }}
                       />
-                    </div>
-                    <div className="relative z-10">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40">
-                        Cashflow Account
-                      </p>
-                      <p className="mt-1 text-lg font-bold text-[#1a1a1a] tracking-tight">
-                        0xa836…BbBf
-                      </p>
-                    </div>
-                    <div className="relative z-10 mt-4">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40">
-                        Credit Limit
-                      </p>
-                      <p className="mt-1 text-3xl font-black text-[#1a1a1a] tracking-tight">
-                        $23
-                      </p>
-                    </div>
-                    <div className="relative z-10 mt-4 flex gap-8">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40">
-                          Net Inflow
-                        </p>
-                        <p className="mt-1 text-xl font-black text-[#1a1a1a] tracking-tight">
-                          +$16
+                      <div className="relative z-10">
+                        <p className="text-lg font-bold italic tracking-tight text-white">
+                          Monaris
                         </p>
                       </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40">
-                          Credit Tier
-                        </p>
-                        <p className="mt-1 text-xl font-black text-[#1a1a1a] tracking-tight">
-                          B
-                        </p>
+                      <div className="relative z-10 space-y-3">
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
+                            Available Now
+                          </p>
+                          <p className="mt-0.5 text-2xl font-black text-[#BFFF00] tracking-tight">
+                          $14,600
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
+                            Reserved
+                          </p>
+                          <p className="mt-0.5 text-base font-bold text-white/60 tracking-tight">
+                          $7,800
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-end pt-1">
+                          <span className="text-[10px] font-semibold italic text-[#BFFF00]">
+                            Verified
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right — dark info panel */}
-                  <div className="relative flex w-[42%] flex-col justify-between overflow-hidden bg-[#0f0f14] p-7">
-                    <div
-                      className="absolute inset-0 opacity-25"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                      }}
-                    />
-                    <div className="relative z-10">
-                      <p className="text-xl font-bold italic tracking-tight text-white">
-                        Monaris
-                      </p>
+                  {/* Bottom: Product features bar */}
+                  <div className="flex items-center justify-center gap-3 sm:gap-4 px-4 py-3 bg-[#0a0a0f] border-t border-white/[0.06]">
+                    <div className="flex items-center gap-1.5 text-[#BFFF00]/80">
+                      <FileText className="h-3 w-3" />
+                      <span className="text-[9px] font-semibold uppercase tracking-wider">AR/AP</span>
                     </div>
-                    <div className="relative z-10 mt-4">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
-                        Available Now
-                      </p>
-                      <p className="mt-1 text-3xl font-black text-[#BFFF00] tracking-tight">
-                        $15
-                      </p>
+                    <div className="w-px h-3 bg-white/20" />
+                    <div className="flex items-center gap-1.5 text-[#BFFF00]/80">
+                      <Shield className="h-3 w-3" />
+                      <span className="text-[9px] font-semibold uppercase tracking-wider">Private</span>
                     </div>
-                    <div className="relative z-10 mt-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
-                        Reserved
-                      </p>
-                      <p className="mt-1 text-xl font-bold text-white/60 tracking-tight">
-                        $8
-                      </p>
+                    <div className="w-px h-3 bg-white/20" />
+                    <div className="flex items-center gap-1.5 text-[#BFFF00]/80">
+                      <TrendingUp className="h-3 w-3" />
+                      <span className="text-[9px] font-semibold uppercase tracking-wider">Score</span>
                     </div>
-                    <div className="relative z-10 mt-3 flex items-center justify-end">
-                      <span className="text-xs font-semibold italic text-[#BFFF00]/60">
-                        Verified
-                      </span>
+                    <div className="w-px h-3 bg-white/20" />
+                    <div className="flex items-center gap-1.5 text-[#BFFF00]/80">
+                      <Wallet className="h-3 w-3" />
+                      <span className="text-[9px] font-semibold uppercase tracking-wider">Credit</span>
                     </div>
+                    <div className="w-px h-3 bg-white/20" />
+                    <div className="flex items-center gap-1.5 text-[#BFFF00]">
+                      <Brain className="h-3 w-3" />
+                      <span className="text-[9px] font-semibold uppercase tracking-wider">Mona AI</span>
+                    </div>
+                    <span className="text-[9px] text-white/30 ml-1">Tap to flip back</span>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,10 @@ export default {
       screens: { "2xl": "1400px" },
     },
     extend: {
-      fontFamily: { sans: ["Satoshi", "system-ui", "sans-serif"] },
+      fontFamily: {
+        sans: ["Satoshi", "system-ui", "sans-serif"],
+        display: ["Clash Display", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         background: "hsl(var(--background))",
