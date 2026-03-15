@@ -21,9 +21,11 @@
   }
 }
 
-/* ── 3D Card Flip (click-based) ── */
+/* ── 3D Card Flip (click/tap) ── */
 .flip-card {
   perspective: 1400px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .flip-card-inner {
@@ -31,6 +33,7 @@
   width: 100%;
   transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .flip-card-inner.flipped {

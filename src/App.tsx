@@ -287,36 +287,13 @@ export default function App() {
             </div>
           </motion.div>
 
-          {/* ═══ MOBILE CARD (no flip, compact) ═══ */}
+          {/* ═══ FLIP CARD (mobile + desktop) ═══ */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="sm:hidden mx-auto w-full max-w-[400px] rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_48px_-12px_rgba(0,0,0,0.6),0_48px_96px_-24px_rgba(0,0,0,0.4)]"
-          >
-            {greenPanel}
-            {/* Slim dark footer — Monaris at bottom-right */}
-            <div className="relative w-full bg-[#0f0f14] py-5 px-5 flex items-center justify-end">
-              <div
-                className="absolute inset-0 opacity-25"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                }}
-              />
-              <p className="relative z-10 text-base font-bold italic tracking-tight text-white">
-                Monaris
-              </p>
-            </div>
-          </motion.div>
-
-          {/* ═══ DESKTOP CARD (flip) ═══ */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="hidden sm:block flip-card mx-auto w-full max-w-[520px]"
+            className="flip-card mx-auto w-full max-w-[400px] sm:max-w-[520px]"
           >
             <div className={`flip-card-inner min-h-[320px] ${isFlipped ? "flipped" : ""}`}>
               {/* FRONT */}
