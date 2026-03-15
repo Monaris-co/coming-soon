@@ -1,30 +1,37 @@
 # Monaris Coming Soon
 
-Standalone coming-soon page for Monaris. Deploy to Vercel as a separate project.
+Standalone coming-soon landing page with waitlist. Ready for Vercel deployment.
 
 ## Deploy to Vercel
 
-1. **From this repo:** In Vercel, create a new project and set **Root Directory** to `coming-soon`.
+1. Import this repo: [github.com/Monaris-co/coming-soon](https://github.com/Monaris-co/coming-soon)
+2. Vercel will auto-detect the Vite framework from `vercel.json`
+3. Add environment variables in Vercel project settings (see below)
+4. Deploy
 
-2. **As separate repo:** Copy the `coming-soon` folder to its own repo and deploy.
+## Supabase Setup
 
-## Setup
+Run the waitlist migration in your Supabase project (SQL Editor or `supabase db push`):
 
-```bash
-cd coming-soon
-npm install
+```sql
+-- See supabase/migrations/004_waitlist.sql
 ```
 
-## Env vars (Vercel)
+## Environment Variables (Vercel)
 
-Add these in your Vercel project settings:
+Add these in **Vercel → Project Settings → Environment Variables**:
 
-- `VITE_SUPABASE_URL` – your Supabase project URL
-- `VITE_SUPABASE_ANON_KEY` – your Supabase anon key
+| Variable | Description |
+|----------|-------------|
+| `VITE_SUPABASE_URL` | Your Supabase project URL |
+| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon/public key |
 
-## Run locally
+## Local Development
 
 ```bash
+npm install
+cp .env.example .env
+# Edit .env with your Supabase credentials
 npm run dev
 ```
 
