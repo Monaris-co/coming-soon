@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain } from "lucide-react";
+import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain, Share2 } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "./lib/supabase";
 
@@ -116,13 +116,22 @@ export default function App() {
       </motion.div>
       <div className="relative z-10 mt-2 sm:mt-4">
         {success ? (
-          <div className="rounded-xl bg-[#1a1a1a]/10 p-3 sm:p-4 text-center">
+          <div className="rounded-xl bg-[#1a1a1a]/10 p-3 sm:p-4 text-center space-y-3">
             <p className="text-sm font-bold text-[#1a1a1a]">
               You&apos;re on the list! 🎉
             </p>
-            <p className="mt-1 text-xs text-[#1a1a1a]/60">
+            <p className="text-xs text-[#1a1a1a]/60">
               We&apos;ll reach out when you&apos;re in.
             </p>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Early on @monaris_fi 👀\n\nThe first private cashflow OS for the stablecoin economy.\n\nYour cashflow. Your credit. Private by default. Your cashflow finally works for you.\n\nJoin now 👉 https://waitlist.monaris.co")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-[#1a1a1a] text-sm font-semibold text-[#c8ff00] hover:bg-[#252525] active:bg-[#303030] transition-colors"
+            >
+              <Share2 className="h-4 w-4" />
+              Share on X
+            </a>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="min-w-0 space-y-1.5 sm:space-y-2.5">
@@ -221,7 +230,7 @@ export default function App() {
         <header className="relative z-10">
           <div className="max-w-[1100px] mx-auto flex h-16 items-center px-4 sm:px-6">
             <a href="/" className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center bg-[#1a1a1a]/5">
+              <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center">
                 <img src="/monar.png" alt="Monaris" className="h-7 w-auto" />
               </div>
               <span className="text-xl font-bold tracking-tight text-[#1a1a1a]">
