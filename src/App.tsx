@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "./lib/supabase";
 
 const REGISTRATION_BASE = 1100;
@@ -75,6 +75,7 @@ export default function App() {
   const { count, join, isLoading, error, success } = useWaitlist();
   const [email, setEmail] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
+  const emailInputRef = useRef<HTMLInputElement>(null);
 
   const displayCount = count !== null ? REGISTRATION_BASE + count : null;
 
@@ -86,7 +87,7 @@ export default function App() {
 
   /* Shared green panel */
   const greenPanel = (
-    <div className="relative flex w-full flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-5 sm:p-7 sm:w-[58%] font-sans">
+    <div className="relative flex w-full min-w-0 flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-3.5 sm:p-5 sm:w-[58%] font-sans">
       <div className="absolute inset-0">
         <div
           className="absolute left-0 top-0 bottom-0 w-[35%] bg-gradient-to-r from-[#e8ffb3]/70 to-transparent"
@@ -103,19 +104,19 @@ export default function App() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.06] px-3.5 py-1.5 backdrop-blur-sm">
-          <Sparkles className="h-3.5 w-3.5 text-[#1a1a1a]/60" strokeWidth={2.5} />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1a1a1a]/70">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.06] px-3 py-1 backdrop-blur-sm">
+          <Sparkles className="h-3 w-3 text-[#1a1a1a]/60" strokeWidth={2.5} />
+          <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#1a1a1a]/70">
             Early Access
           </span>
         </div>
-        <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-[#0a0a0a] drop-shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:text-3xl">
+        <h2 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-[#0a0a0a] drop-shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:text-2xl">
           Own Your Cashflow.
         </h2>
       </motion.div>
-      <div className="relative z-10 mt-4 sm:mt-5">
+      <div className="relative z-10 mt-2 sm:mt-4">
         {success ? (
-          <div className="rounded-2xl bg-[#1a1a1a]/10 p-4 sm:p-5 text-center">
+          <div className="rounded-xl bg-[#1a1a1a]/10 p-3 sm:p-4 text-center">
             <p className="text-sm font-bold text-[#1a1a1a]">
               You&apos;re on the list! 🎉
             </p>
@@ -124,16 +125,22 @@ export default function App() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
-            <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1a1a1a]/30 group-focus-within:text-[#1a1a1a]/60 transition-colors" />
+          <form onSubmit={handleSubmit} className="min-w-0 space-y-1.5 sm:space-y-2.5">
+            <div className="relative group min-w-0">
+              <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#1a1a1a]/30 group-focus-within:text-[#1a1a1a]/60 transition-colors sm:left-4 sm:h-4 sm:w-4" />
               <input
+                ref={emailInputRef}
                 type="email"
+                inputMode="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onFocus={() => {
+                  emailInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
                 placeholder="Enter your email"
                 disabled={isLoading}
-                className={`h-11 sm:h-[52px] w-full rounded-2xl border-2 bg-white pl-11 sm:pl-12 pr-4 text-sm sm:text-[15px] font-medium text-[#1a1a1a] placeholder-[#1a1a1a]/30 shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:border-[#1a1a1a]/20 focus:outline-none focus:ring-4 focus:ring-[#1a1a1a]/5 focus:shadow-[0_4px_16px_rgba(0,0,0,0.08)] disabled:opacity-50 transition-all ${error ? "border-red-500/50" : "border-[#1a1a1a]/8"}`}
+                className={`min-h-[48px] w-full min-w-0 rounded-xl border-2 bg-white pl-11 pr-4 text-base font-medium text-[#1a1a1a] placeholder-[#1a1a1a]/30 shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:border-[#1a1a1a]/20 focus:outline-none focus:ring-4 focus:ring-[#1a1a1a]/5 focus:shadow-[0_4px_16px_rgba(0,0,0,0.08)] disabled:opacity-50 transition-all sm:h-[48px] sm:pl-12 sm:text-[15px] ${error ? "border-red-500/50" : "border-[#1a1a1a]/8"}`}
               />
             </div>
             {error && (
@@ -145,7 +152,7 @@ export default function App() {
               type="submit"
               disabled={isLoading}
               whileTap={{ scale: 0.97 }}
-              className="flex h-11 sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-2xl bg-[#1a1a1a] text-sm sm:text-[15px] font-semibold text-[#c8ff00] hover:bg-[#252525] active:bg-[#303030] disabled:opacity-50 transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+              className="flex min-h-[48px] sm:h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#1a1a1a] text-base font-semibold text-[#c8ff00] hover:bg-[#252525] active:bg-[#303030] disabled:opacity-50 transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.15)] sm:text-[15px]"
             >
               {isLoading ? (
                 "Joining..."
@@ -165,7 +172,7 @@ export default function App() {
   /* Shared dark panel */
   const darkPanel = (clickHandler?: () => void) => (
     <div
-      className={`relative w-full overflow-hidden bg-[#0f0f14] p-5 sm:p-7 sm:w-[42%] font-sans ${clickHandler ? "cursor-pointer group" : ""}`}
+      className={`relative w-full overflow-hidden bg-[#0f0f14] p-3.5 sm:p-5 sm:w-[42%] font-sans ${clickHandler ? "cursor-pointer group" : ""}`}
       onClick={clickHandler}
     >
       <div
@@ -176,11 +183,11 @@ export default function App() {
       />
       <div className="relative z-10 flex h-full flex-col">
         <div className="mb-auto">
-          <p className="text-lg sm:text-xl font-bold italic tracking-tight text-white">
+          <p className="text-base sm:text-lg font-bold italic tracking-tight text-white">
             Monaris
           </p>
         </div>
-        <div className="mt-3 sm:mt-4 min-w-0">
+        <div className="mt-2 sm:mt-3 min-w-0">
           <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
             Registrations
           </p>
@@ -189,13 +196,13 @@ export default function App() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-1 text-3xl font-black text-[#BFFF00] leading-none sm:text-5xl tabular-nums"
+            className="mt-0.5 text-2xl font-black text-[#BFFF00] leading-none sm:text-4xl tabular-nums"
           >
             {displayCount !== null ? displayCount.toLocaleString() : "—"}
           </motion.p>
         </div>
         {clickHandler && (
-          <div className="mt-2 sm:mt-3 flex items-center gap-2 text-white/30 group-hover:text-white/50 transition-colors">
+          <div className="mt-1.5 sm:mt-2 flex items-center gap-2 text-white/30 group-hover:text-white/50 transition-colors">
             <Users className="h-3.5 w-3.5" />
             <span className="text-[11px] font-medium">
               Tap to learn more →
@@ -295,10 +302,10 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="flip-card mx-auto w-full max-w-[400px] sm:max-w-[520px]"
           >
-            <div className={`flip-card-inner min-h-[320px] ${isFlipped ? "flipped" : ""}`}>
+            <div className={`flip-card-inner min-h-[280px] ${isFlipped ? "flipped" : ""}`}>
               {/* FRONT */}
               <div className="flip-card-front w-full rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_48px_-12px_rgba(0,0,0,0.6),0_48px_96px_-24px_rgba(0,0,0,0.4)]">
-                <div className="flex min-h-[320px] flex-row">
+                <div className="flex min-h-[280px] flex-col sm:flex-row">
                   {greenPanel}
                   {darkPanel(() => setIsFlipped(true))}
                 </div>
@@ -307,20 +314,20 @@ export default function App() {
               {/* BACK — Dashboard + Product Features */}
               <div className="flip-card-back w-full rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_48px_-12px_rgba(0,0,0,0.6),0_48px_96px_-24px_rgba(0,0,0,0.4)]">
                 <div
-                  className="flex min-h-[320px] flex-col relative cursor-pointer font-sans"
+                  className="flex min-h-[280px] flex-col relative cursor-pointer font-sans"
                   onClick={() => setIsFlipped(false)}
                 >
                   {/* Top: Dashboard-style card */}
                   <div className="flex flex-1 flex-row min-h-0">
                     {/* Left — green data panel */}
-                    <div className="relative flex w-[58%] flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-5 sm:p-6">
+                    <div className="relative flex w-[58%] flex-col justify-between overflow-hidden bg-gradient-to-br from-[#d4f542] via-[#c8ff00] to-[#a8df00] p-4 sm:p-5">
                       <div className="absolute inset-0">
                         <div
                           className="absolute left-0 top-0 bottom-0 w-[35%] bg-gradient-to-r from-[#e8ffb3]/70 to-transparent"
                           style={{ clipPath: "ellipse(100% 80% at 0% 50%)" }}
                         />
                       </div>
-                      <div className="relative z-10 space-y-4">
+                      <div className="relative z-10 space-y-3">
                         <div>
                           <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/50">
                             Cashflow Account
@@ -359,7 +366,7 @@ export default function App() {
                     </div>
 
                     {/* Right — dark info panel */}
-                    <div className="relative flex w-[42%] flex-col justify-between overflow-hidden bg-[#0f0f14] p-5 sm:p-6">
+                    <div className="relative flex w-[42%] flex-col justify-between overflow-hidden bg-[#0f0f14] p-4 sm:p-5">
                       <div
                         className="absolute inset-0 opacity-25"
                         style={{
@@ -371,7 +378,7 @@ export default function App() {
                           Monaris
                         </p>
                       </div>
-                      <div className="relative z-10 space-y-3">
+                      <div className="relative z-10 space-y-2">
                         <div>
                           <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
                             Available Now
@@ -398,7 +405,7 @@ export default function App() {
                   </div>
 
                   {/* Bottom: Product features bar */}
-                  <div className="flex items-center justify-center gap-3 sm:gap-4 px-4 py-3 bg-[#0a0a0f] border-t border-white/[0.06]">
+                  <div className="flex items-center justify-center gap-2 sm:gap-3 px-3 py-2 bg-[#0a0a0f] border-t border-white/[0.06]">
                     <div className="flex items-center gap-1.5 text-[#BFFF00]/80">
                       <FileText className="h-3 w-3" />
                       <span className="text-[9px] font-semibold uppercase tracking-wider">AR/AP</span>
