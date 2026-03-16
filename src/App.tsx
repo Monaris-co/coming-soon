@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "./lib/supabase";
 
 const REGISTRATION_BASE = 1100;
+const X_ACCOUNT_URL = "https://x.com/monaris_fi";
 
 function useWaitlist() {
   const [count, setCount] = useState<number | null>(null);
@@ -114,7 +115,7 @@ export default function App() {
           Own Your Cashflow.
         </h2>
       </motion.div>
-      <div className="relative z-10 mt-2 sm:mt-4">
+      <div className="relative z-10 mt-2 sm:mt-4 space-y-2 sm:space-y-3">
         {success ? (
           <div className="rounded-xl bg-[#1a1a1a]/10 p-3 sm:p-4 text-center space-y-3">
             <p className="text-sm font-bold text-[#1a1a1a]">
@@ -174,6 +175,15 @@ export default function App() {
             </motion.button>
           </form>
         )}
+        <a
+          href={X_ACCOUNT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.06] px-3 py-2 text-[11px] font-medium text-[#1a1a1a]/65 transition-colors hover:bg-[#1a1a1a]/10 hover:text-[#1a1a1a]/85"
+        >
+          <XIcon className="h-3.5 w-3.5 shrink-0 text-[#1a1a1a]/70" />
+          <span>Follow on X to stay updated</span>
+        </a>
       </div>
     </div>
   );
@@ -461,5 +471,18 @@ export default function App() {
         </footer>
       </div>
     </div>
+  );
+}
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M18.244 2H21l-6.02 6.879L22 22h-5.486l-4.295-7.932L5.276 22H2.52l6.438-7.358L2 2h5.625l3.882 7.23L18.244 2Zm-.967 18.347h1.527L6.795 3.567H5.156l12.121 16.78Z" />
+    </svg>
   );
 }
