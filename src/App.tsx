@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain, Share2 } from "lucide-react";
+import { ArrowRight, Mail, Users, Sparkles, FileText, Shield, TrendingUp, Wallet, Brain, Share2, ExternalLink, MessageCircle } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "./lib/supabase";
 
 const REGISTRATION_BASE = 1100;
-const X_ACCOUNT_URL = "https://x.com/monaris_fi";
 
 function useWaitlist() {
   const [count, setCount] = useState<number | null>(null);
@@ -175,15 +174,6 @@ export default function App() {
             </motion.button>
           </form>
         )}
-        <a
-          href={X_ACCOUNT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.06] px-3 py-2 text-[11px] font-medium text-[#1a1a1a]/65 transition-colors hover:bg-[#1a1a1a]/10 hover:text-[#1a1a1a]/85"
-        >
-          <XIcon className="h-3.5 w-3.5 shrink-0 text-[#1a1a1a]/70" />
-          <span>Follow on X to stay updated</span>
-        </a>
       </div>
     </div>
   );
@@ -272,6 +262,35 @@ export default function App() {
             Your cashflow is proof of income. Proof that no bank can see. Every receivable builds a Monaris Score — your real-time financial identity. That Score unlocks capital, payment financing (pay-fi), credit, and BNPL backed by income you already earned.{" "}
               <span className="font-bold underline text-black">Private by default. Always.</span>
             </motion.p>
+
+            {/* Follow on X + Join Community */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4"
+            >
+              <a
+                href="https://x.com/monaris_fi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#1a1a1a]/20 bg-[#1a1a1a]/5 px-4 py-2.5 text-sm font-bold text-[#1a1a1a] hover:border-[#1a1a1a]/30 hover:bg-[#1a1a1a]/10 transition-colors"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Follow on X to Stay Updated
+              </a>
+              <a
+                href="https://t.me/monaris_fi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#1a1a1a]/20 bg-[#1a1a1a]/5 px-4 py-2.5 text-sm font-bold text-[#1a1a1a] hover:border-[#1a1a1a]/30 hover:bg-[#1a1a1a]/10 transition-colors"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Join Community
+              </a>
+            </motion.div>
           </div>
         </section>
 
@@ -471,18 +490,5 @@ export default function App() {
         </footer>
       </div>
     </div>
-  );
-}
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      fill="currentColor"
-      className={className}
-    >
-      <path d="M18.244 2H21l-6.02 6.879L22 22h-5.486l-4.295-7.932L5.276 22H2.52l6.438-7.358L2 2h5.625l3.882 7.23L18.244 2Zm-.967 18.347h1.527L6.795 3.567H5.156l12.121 16.78Z" />
-    </svg>
   );
 }
